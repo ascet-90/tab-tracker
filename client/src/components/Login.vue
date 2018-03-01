@@ -4,11 +4,11 @@
       <div class="white elevation-2">
         <v-toolbar flat dense class="amber accent-3" dark>
           <v-toolbar-title>
-            Register
+            Login
           </v-toolbar-title>
         </v-toolbar>
         <div class="pl-4 pr-4 pt-2 pb-2">
-          <form name="tab-tracker-form" @submit.prevent="">
+          <form @submit.prevent="">
             <v-text-field
               name="email"
               label="Email"
@@ -24,7 +24,7 @@
               :type="'password'"
             ></v-text-field>
             <div class="error" v-html="error"></div>
-            <v-btn @click="register" type="submit" class="amber accent-3" dark>Register</v-btn>
+            <v-btn @click="login" type="submit" class="amber accent-3" dark>Login</v-btn>
           </form>
         </div>
       </div>
@@ -35,7 +35,7 @@
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
 export default {
-  name: 'Register',
+  name: 'Login',
   data () {
     return {
       email: '',
@@ -44,14 +44,15 @@ export default {
     }
   },
   methods: {
-    async register () {
+    async login () {
       try {
-        const response = await AuthenticationService.register({
+        const response = await AuthenticationService.login({
           email: this.email,
           password: this.password
         })
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        this.$router.push('/')
       } catch (error) {
         this.error = error.response.data.error
       }
