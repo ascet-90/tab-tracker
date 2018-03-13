@@ -2,7 +2,7 @@
   <v-app>
     <Header/>
     <v-content>
-      <v-container fluid class="pt-5">
+      <v-container fluid class="pt-5" grid-list-md>
         <router-view/>
       </v-container>
     </v-content>

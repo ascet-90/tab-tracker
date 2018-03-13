@@ -23,7 +23,7 @@
               required
               :type="'password'"
             ></v-text-field>
-            <div class="error" v-html="error"></div>
+            <div class="error white--text" v-html="error"></div>
             <v-btn @click="register" type="submit" class="amber accent-3" dark>Register</v-btn>
           </form>
         </div>
@@ -52,6 +52,7 @@ export default {
         })
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        this.$router.push('/songs')
       } catch (error) {
         this.error = error.response.data.error
       }

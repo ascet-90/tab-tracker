@@ -74,7 +74,7 @@
        <v-alert color="error" v-model="error" dismissible outline>
         {{ errorMessage}}
       </v-alert>
-      <v-btn dark class="amber accent-3 mt-3" @click="create">Create Song</v-btn>
+      <v-btn dark class="amber accent-3 mt-3" @click="save">Save Song</v-btn>
     </v-flex>
   </v-layout>
 </template>
@@ -102,7 +102,7 @@ export default {
     }
   },
   methods: {
-    async create () {
+    async save () {
       const songIsValid = Object.keys(this.song).every(key => !!this.song[key])
       if (!songIsValid) {
         this.error = true
@@ -110,11 +110,19 @@ export default {
         return
       }
       try {
-        await SongsService.post(this.song)
-        this.$router.push('/songs')
+        await SongsService.put(this.song)
+        this.$router.push(`/songs/${this.song.id}`)
       } catch (err) {
         console.log(err)
       }
+    }
+  },
+  async mounted () {
+    try {
+      const songId = this.$store.state.route.params.id
+      this.song = (await SongsService.show(songId)).data
+    } catch (err) {
+      console.log(err)
     }
   }
 }
